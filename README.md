@@ -1,5 +1,7 @@
 # React Hooks Workshop
 
+*"Don't think about Hooks in terms of classes. This is a whole new way of thinking about React" - James Long*
+
 ### React createElement
 * params: tag name, props, child
 * if  > 3 arguments, 3+ are converted to an array of children
@@ -16,10 +18,14 @@
 * useState just uses callorder to save state values by ID
     * all hooks use call order
 * THAT'S why you can't use hooks conditionals, call order must be the same forever
+    * if you need to do this, create a component that uses those hooks and wrap the component usage in a conditional instead
 
 ### useEffect
 * an "Effect" is anything outside of rendering
-* also uses call order to determine if new values for variables in dependency array or different
+* also uses call order to determine if new values for variables in dependency array are different
+    * dependency array performs shallow comparison against provided values
+    * no dependency array means always run on change
+    * empty dependency array means only run once
 * useEffect cleanup function
     * not just run on unmount, it's run whenever we go to run useEffect again
         * also stored in an array according to call order
@@ -42,6 +48,8 @@
     * useEffect callback is synchronous, cannot await
         * because the cleanup function needs to be set immediately
         * inner asnyc functions within useEffect are fine
+        * for quick actions, use promises
+* useEffect can be broken out into separate functions, known as custom hooks, which allows them to be more flexible and therefore powerful
 
 ### compound components
 * dangers of adding too many features to a component
@@ -53,10 +61,15 @@
 ### context
 * first use local state and props, then consider context
 * context is especially useful for library authors, as they don't know what your children might be
+* context methods are `createContext` and `useContext`
+* anything can be passed into context
+* after the context is created, a consumer can get that value
+* user auth is a great candidate for context
 
 ### dealing with variable children
 * React has a Children API: React.Children.map, React.Children.forEach, etc
     * `{React.Children.map(props.children, () => {})}`
+* single children will be returned as a string instead of an array. make sure to handle this case
 
 ### useReducer
 * facebook hired the redux guy, now reducers are native to facebook
@@ -86,6 +99,7 @@
 * userReducer does about 90% of what you could do with React Redux
     * React Redux gives you more fine grained subscriptions to specific elements of your data store
     * useReducer will have your component rerender whenever any part of the state changes (!)
+        * on the other hand React Redux only rerenders when specified state properties change
 * middleware
     * just need a function that accepts the action, does its own thing, then returns `dispatch(action)`
     * set this custom dispatch function as the value of `dispatch` in your context, instead of providing `dispatch` from `useReducer` directly
@@ -113,6 +127,7 @@
     * a parent component is required to maintain a record of which components are coming in or out
 
 ### performance
+* classes are slightly more performant thank hooks, but in most cases this is likely negligible
 * diffing the virtual React DOM and the real DOM is actually not inherently costly, it's the side effects that get ya
 * memoization
     * old-school word for "caching something"
@@ -122,6 +137,8 @@
     * arg two is a dependencies array, just like useEffect
     * you can memoize entire components so they only re-render if their props change
         * this is especially useful for long lists
+* `useRef`
+    * allows you to use DOM Node API to control things like focus and scroll behavior
 * React profiler
     * as you step through commit events, gray bars are components that were not re-rendered
 
@@ -140,3 +157,7 @@
     * the third arg in React.createElement is already just an array of components
 * e.target.elements = get form elements on submit
 * `typeof` does not recognize Promise, use `instanceof` instead
+* testing will likely be harder with hooks and should be at the component level
+    * unit testing probably not feasible with hooks
+* React dev tool profiler can record and see everything that re-rendered
+* pattern for context is still being figured out, in prod it's recommended to use an established pattern like Redux
