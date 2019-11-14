@@ -19,7 +19,7 @@
 * useState is just saving the previous values to an array outside the scope of the component
 * useState just uses callorder to save state values by ID
     * all hooks use call order
-* THAT'S why you can't use hooks conditionals, call order must be the same forever
+* THAT'S why you can't use hooks conditionally, call order must be the same forever
     * if you need to do this, create a component that uses those hooks and wrap the component usage in a conditional instead
 
 ### useEffect
@@ -31,27 +31,25 @@
   * empty dependency array means only run on mount (and run cleanup on unmount)
 * the function passed to useEffect returns a "cleanup function"
   * not just run on unmount, it's run whenever we go to run useEffect again
-    * also stored in an array according to call order
-    * you can conditionally return cleanup functions
-    * you can use closures in useEffect, allowing for local variables
-
-            ```jsx
-                useEffect(() => {
-                    let isValidAsyncRequest = true;
-                    someAsyncNetworkCall()
-                        .then(() => {
-                            if (isValidAsyncRequest) {
-                                ...
-                            }
-                        });
-                    return () => { isValidAsyncRequest = false; };
-                });
-            ```
-
+   * also stored in an array according to call order
+   * you can conditionally return cleanup functions
+   * you can use closures in useEffect, allowing for local variables
+      ```jsx
+          useEffect(() => {
+              let isValidAsyncRequest = true;
+              someAsyncNetworkCall()
+                  .then(() => {
+                      if (isValidAsyncRequest) {
+                          ...
+                      }
+                  });
+              return () => { isValidAsyncRequest = false; };
+          });
+      ```
     * useEffect callback is synchronous, cannot await
-        * this is because the cleanup function needs to be set immediately
-        * inner asnyc functions within useEffect are fine
-        * for quick actions, use promises
+     * this is because the cleanup function needs to be set immediately
+     * inner asnyc functions within useEffect are fine
+     * for quick actions, use promises
 * useEffect (and all other hooks) can be broken out into separate functions, known as custom hooks, which allows them to be more flexible and therefore powerful
     * Abstract out useEffect (and useState) into custom hooks order to share with other components, and to provide more context around it's usage: useAppState(), useTitle()
 
