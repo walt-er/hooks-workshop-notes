@@ -29,7 +29,8 @@
 * useEffect cleanup function
     * not just run on unmount, it's run whenever we go to run useEffect again
         * also stored in an array according to call order
-        you can use closures in useEffect, use local variables
+        * you can conditionally return cleanup functions
+        * you can use closures in useEffect, allowing for local variables
 
             ```jsx
                 useEffect(() => {
@@ -44,7 +45,6 @@
                 });
             ```
 
-        * you can conditionally return cleanup functions
     * useEffect callback is synchronous, cannot await
         * because the cleanup function needs to be set immediately
         * inner asnyc functions within useEffect are fine
