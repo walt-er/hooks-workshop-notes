@@ -2,14 +2,16 @@
 
 *"Don't think about Hooks in terms of classes. This is a whole new way of thinking about React" - James Long*
 
-### React createElement
-* params: tag name, props, child
-* if  > 3 arguments, 3+ are converted to an array of children
+### React basics
 
-### Style object
-* camelcase ("borderWidth") is actually just the JS API for the style properties of a DOM node
-* without mapping, React is less magical
-* same goes for "className"
+* React createElement
+  * params: tag name, props, child
+  * if  > 3 arguments, 3+ are converted to an array of children
+
+* Style object
+  * camelcase ("borderWidth") is actually just the JS API for the style properties of a DOM node
+  * without mapping, React is less magical
+  * same goes for "className"
 
 ### useState
 * think about calling use state as a language feature, not a function call
