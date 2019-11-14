@@ -7,7 +7,7 @@
 * if  > 3 arguments, 3+ are converted to an array of children
 
 ### Style object
-* camelcase is actually just the JS API for the style properties of a DOM node
+* camelcase ("borderWidth") is actually just the JS API for the style properties of a DOM node
 * without mapping, React is less magical
 * same goes for "className"
 
