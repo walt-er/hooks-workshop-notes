@@ -49,22 +49,22 @@
         * because the cleanup function needs to be set immediately
         * inner asnyc functions within useEffect are fine
         * for quick actions, use promises
-* useEffect can be broken out into separate functions, known as custom hooks, which allows them to be more flexible and therefore powerful
+* useEffect (and all other hooks) can be broken out into separate functions, known as custom hooks, which allows them to be more flexible and therefore powerful
     * Abstract out useEffect (and useState) into custom hooks order to share with other components, and to provide more context around it's usage: useAppState(), useTitle()
 
 ### compound components
 * dangers of adding too many features to a component
-    * compare "god components" to a single function with a million params, adding params each time you need something
+    * you can compare "god components" to a single function with a million params, adding params each time you need something, to see how overcomplicated components are dangerous
     * even if you hide it in an options object, it's too many conditionals
-* split functionality across many smaller components and share state with context
-* easier to swap out individual components
+* instead, split functionality across many smaller components and share state with context
+    * easier to swap out individual components
 
 ### context
 * first use local state and props, then consider context
 * context is especially useful for library authors, as they don't know what your children might be
-* context methods are `createContext` and `useContext`
+* context methods are `createContext` (React method) and `useContext` (hook)
 * anything can be passed into context
-* after the context is created, a consumer can get that value
+* after the context is created, a consumer anywhere below the provider in the component hierarchy can get that value
 * user auth is a great candidate for context
 
 ### dealing with variable children
@@ -73,7 +73,7 @@
 * single children will be returned as a string instead of an array. make sure to handle this case
 
 ### useReducer
-* facebook hired the redux guy, now reducers are native to facebook
+* facebook hired the redux guy, now reducers are native to React
 * why use reducers over useState
     * setting multiple nuggets of state at once - we want to control the ways in which complex state changes can occur
     * more descriptive - dispatching a "SINGUP_FAILED" action is more clear than three lines of setState calls
@@ -101,8 +101,8 @@
     * React Redux gives you more fine grained subscriptions to specific elements of your data store
     * useReducer will have your component rerender whenever any part of the state changes (!)
         * on the other hand React Redux only rerenders when specified state properties change
-* middleware
-    * just need a function that accepts the action, does its own thing, then returns `dispatch(action)`
+* writing reducer middleware
+    * you just need a function that accepts the action, does its own thing, then returns `dispatch(action)`
     * set this custom dispatch function as the value of `dispatch` in your context, instead of providing `dispatch` from `useReducer` directly
     * this would allow you to do crazier things, like a middleware to handle Promises in `dispatch`
 * optimistic updates
@@ -128,19 +128,23 @@
     * a parent component is required to maintain a record of which components are coming in or out
 
 ### performance
-* classes are slightly more performant thank hooks, but in most cases this is likely negligible
+* classes are slightly more performant than hooks, but in most cases this is likely negligible
+    * [Walt: I'm not sure this is always true. I was confused by this conversation in the class because most arguments for hooks include a note about functional components being more performant than classes. I'd like to investigate what exactly he meant here]
 * diffing the virtual React DOM and the real DOM is actually not inherently costly, it's the side effects that get ya
 * memoization
     * old-school word for "caching something"
-    * in React terms, it means saving the value of something for reuse over recalculating/rendering each time a component renders
+    * in React terms, it means saving the value of something for reuse instead of recalculating/rendering each time a component renders
 * `useMemo`
     * takes a function which returns some value to memoize
     * arg two is a dependencies array, just like useEffect
     * you can memoize entire components so they only re-render if their props change
         * this is especially useful for long lists
 * `useRef`
-    * allows you to use DOM Node API to control things like focus and scroll behavior
+    * allows you to save any value to a persistent "bucket", which lives outside the component lifecycle/state, like a DOM node 
+    * for example, use could use a ref to use the DOM Node API to control things like focus and scroll behavior in `useEffect` (since it is an "effect" outside of rendering
 * React profiler
+    * progress steps represent commit events
+        * React "commits" a set of changes from its virtual DOM to the page DOM when a diff is found
     * as you step through commit events, gray bars are components that were not re-rendered
 
 ### misc
