@@ -24,15 +24,16 @@
 
 ### useEffect
 * an "Effect" is anything outside of rendering
+* two params: callback and dependency array (callback is called when dependencies change)
 * also uses call order to determine if new values for variables in dependency array are different
-    * dependency array performs shallow comparison against provided values
-    * no dependency array means always run on change
-    * empty dependency array means only run once
-* useEffect cleanup function
-    * not just run on unmount, it's run whenever we go to run useEffect again
-        * also stored in an array according to call order
-        * you can conditionally return cleanup functions
-        * you can use closures in useEffect, allowing for local variables
+  * dependency array performs shallow comparison against provided values
+  * no dependency array means always run on render
+  * empty dependency array means only run on mount (and run cleanup on unmount)
+* the function passed to useEffect returns a "cleanup function"
+  * not just run on unmount, it's run whenever we go to run useEffect again
+    * also stored in an array according to call order
+    * you can conditionally return cleanup functions
+    * you can use closures in useEffect, allowing for local variables
 
             ```jsx
                 useEffect(() => {
@@ -48,7 +49,7 @@
             ```
 
     * useEffect callback is synchronous, cannot await
-        * because the cleanup function needs to be set immediately
+        * this is because the cleanup function needs to be set immediately
         * inner asnyc functions within useEffect are fine
         * for quick actions, use promises
 * useEffect (and all other hooks) can be broken out into separate functions, known as custom hooks, which allows them to be more flexible and therefore powerful
