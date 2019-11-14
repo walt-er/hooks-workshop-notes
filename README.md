@@ -50,6 +50,7 @@
         * inner asnyc functions within useEffect are fine
         * for quick actions, use promises
 * useEffect can be broken out into separate functions, known as custom hooks, which allows them to be more flexible and therefore powerful
+    * Abstract out useEffect (and useState) into custom hooks order to share with other components, and to provide more context around it's usage: useAppState(), useTitle()
 
 ### compound components
 * dangers of adding too many features to a component
